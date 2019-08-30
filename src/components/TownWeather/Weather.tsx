@@ -1,4 +1,4 @@
-import { Card, List, Spin } from 'antd';
+import { Card, List, Spin, Button, Icon } from 'antd';
 import React, { useEffect, useState } from 'react';
 import Flag from 'react-world-flags';
 import Store from '../../store';
@@ -35,6 +35,7 @@ const Weather: React.FC<WeatherProps> = (props) => {
           {convertTemperature(data.main.temp, props.store.units)} °{props.store.units}
         </div>
       }
+      actions={[ <Icon type="delete" key="delete" onClick={() => props.store.removeTown(props.town)} /> ]}
     >
       <List>
         {data.weather.map((weather) => (

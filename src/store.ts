@@ -1,5 +1,6 @@
 import Api from './api';
-import { observable, configure } from 'mobx';
+import { observable, configure, action } from 'mobx';
+import { remove } from 'lodash';
 
 export type Units = 'C' | 'F';
 export interface Town {
@@ -26,6 +27,16 @@ export class Store {
 
   public get api() {
     return this._api;
+  }
+
+  @action.bound
+  public addTown(town: Town) {
+    this.towns.push(town);
+  }
+
+  @action.bound
+  public removeTown(name: string) {
+    this.towns = remove(this.towns, (town) => town.name !== name);
   }
 }
 
