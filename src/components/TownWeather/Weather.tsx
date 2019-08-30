@@ -1,34 +1,51 @@
-import React, { useState, useEffect } from "react";
-import Store from "../../store";
-import { Card, Spin } from "antd";
-import { WeatherResponse } from "../../types";
+import { Card, List, Spin } from 'antd';
+import React, { useEffect, useState } from 'react';
+import Flag from 'react-world-flags';
+import Store from '../../store';
+import { WeatherResponse } from '../../types';
+import { convertTemperature } from '../../utils';
 
 interface WeatherProps {
   store: Store;
   town: string;
+  country?: string;
 }
 
-const Weather: React.FC<WeatherProps> = props => {
-  const [data, setData] = useState<undefined | WeatherResponse>(undefined);
+const Weather: React.FC<WeatherProps> = (props) => {
+  const [ data, setData ] = useState<undefined | WeatherResponse>(undefined);
 
-  useEffect(() => {
-    props.store.api
-      .getByCityName(props.town)
-      .then(response => setData(response.data));
-  }, [props]);
+  useEffect(
+    () => {
+      props.store.api.getByCityName(props.town).then((response) => setData(response.data));
+    },
+    [ props ]
+  );
 
   if (!data) {
     return <Spin />;
   }
+  const cc = props.country || data.sys.country;
   return (
-    <Card style={{ width: 400 }} title={props.town}>
-      {data.weather.map(weather => (
-        <img
-          src={`http://openweathermap.org/img/wn/${weather.icon}.png`}
-          alt={weather.description}
-        />
-      ))}
-      {JSON.stringify(data)};
+    <Card
+      style={{ height: 500 }}
+      title={
+        <div>
+          {props.town},
+          {cc} <Flag code={cc} height={12} />,
+          {convertTemperature(data.main.temp, props.store.units)} °{props.store.units}
+        </div>
+      }
+    >
+      <List>
+        {data.weather.map((weather) => (
+          <img
+            key={weather.id}
+            src={`http://openweathermap.org/img/wn/${weather.icon}.png`}
+            alt={weather.description}
+          />
+        ))}
+      </List>
+      {/* {JSON.stringify(data)} */}
     </Card>
   );
 };

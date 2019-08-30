@@ -1,25 +1,26 @@
-import { Layout } from "antd";
-import { Provider } from "mobx-react";
-import React from "react";
-import Api from "../api";
-import Store from "../store";
-import Weather from "./TownWeather/Weather.container";
-const { Header, Content, Footer } = Layout;
+import { Layout } from 'antd';
+import { Provider } from 'mobx-react';
+import React from 'react';
+import Api from '../api';
+import Store from '../store';
+import Panel from './Panel/Panel.container';
+const { Header, Content, Sider, Footer } = Layout;
 
 const App: React.FC = () => {
   const store = new Store(new Api());
   return (
     <Provider store={store}>
-      <div className="App">
+      <Layout>
+        <Header style={{ color: '#fff', fontWeight: 'bold' }}>Weather App</Header>
         <Layout>
-          <Header>Weather App</Header>
+          <Sider theme="light" />
           <Content>
-            <Weather town={"Kiev"} />
-            <Weather town={"Kharkiv"} />
+            <Panel />
           </Content>
-          <Footer>Created by, hitman®, 2019</Footer>
+          <Sider theme="light" />
         </Layout>
-      </div>
+        <Footer>Created by, hitman®, 2019</Footer>
+      </Layout>
     </Provider>
   );
 };
