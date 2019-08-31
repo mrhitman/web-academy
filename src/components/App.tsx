@@ -4,7 +4,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import Api from '../api';
 import Store from '../store';
 import Panel from './Panel/Panel.container';
-import Details from './Details/Details';
+import Details from './Details/Details.container';
 import Layout from './Layout';
 
 const App: React.FC = () => {
@@ -14,7 +14,7 @@ const App: React.FC = () => {
       <Layout toggleUnits={store.toggleUnits}>
         <BrowserRouter>
           <Route path="/" exact component={Panel} />
-          <Route path="/details" component={Details} />
+          <Route path="/details/:townId" component={Details} />
         </BrowserRouter>
       </Layout>
     </Provider>

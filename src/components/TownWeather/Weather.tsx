@@ -34,7 +34,7 @@ const Weather: React.FC<WeatherProps> = (props) => {
         </div>
       }
       actions={[
-        <Link to="/details">
+        <Link to={`/details/${data.id}`}>
           <Icon type="more" key="more" />
         </Link>,
         <Icon
