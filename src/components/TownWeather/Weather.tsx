@@ -1,4 +1,4 @@
-import { Card, Icon, Spin } from 'antd';
+import { Card, Icon, Spin, Row, Typography, Col } from 'antd';
 import React, { useEffect, useState } from 'react';
 import Flag from 'react-world-flags';
 import Store from '../../store';
@@ -33,6 +33,7 @@ const Weather: React.FC<WeatherProps> = (props) => {
           {convertTemperature(data.main.temp, props.store.units)} °{props.store.units}
         </div>
       }
+      style={{ height: 680 }}
       actions={[
         <Icon type="more" key="more" />,
         <Icon
@@ -46,9 +47,18 @@ const Weather: React.FC<WeatherProps> = (props) => {
         />
       ]}
     >
-      {data.weather.map((weather) => (
-        <img key={weather.id} src={`http://openweathermap.org/img/wn/${weather.icon}.png`} alt={weather.description} />
-      ))}
+      <Row gutter={18}>
+        {data.weather.map((weather) => (
+          <Col span={8}>
+            <img
+              key={weather.id}
+              src={`http://openweathermap.org/img/wn/${weather.icon}.png`}
+              alt={weather.description}
+            />
+            <Typography.Paragraph>{weather.description}</Typography.Paragraph>
+          </Col>
+        ))}
+      </Row>
       <TableData data={data} />
     </Card>
   );

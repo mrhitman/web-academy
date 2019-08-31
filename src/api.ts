@@ -11,11 +11,13 @@ export class Api {
   }
 
   public getByCityName(name: string, country?: string): AxiosPromise<WeatherResponse> {
-    return this.client.get(`/weather?q=${name}${country ? `,${country}` : ''}&APPID=${process.env.REACT_APP_API_KEY}`);
+    return this.client.get(
+      `/weather?q=${name}${country ? `,${country}` : ''}&APPID=${process.env.REACT_APP_API_KEY}&lang=ru`
+    );
   }
 
   public getByCityID(id: number) {
-    return this.client.get(`/weather?id=${id}&APPID=${process.env.REACT_APP_API_KEY}`);
+    return this.client.get(`/weather?id=${id}&APPID=${process.env.REACT_APP_API_KEY}&lang=ru`);
   }
 }
 
