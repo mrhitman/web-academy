@@ -1,4 +1,4 @@
-import { Layout } from 'antd';
+import { Layout, Switch, Typography } from 'antd';
 import { Provider } from 'mobx-react';
 import React from 'react';
 import Api from '../api';
@@ -11,7 +11,18 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <Layout>
-        <Header style={{ color: '#fff', fontWeight: 'bold' }}>Weather App</Header>
+        <Header>
+          <Typography.Title style={{ color: '#fff', margin: '10px 0 0 40px' }} level={3}>
+            Weather App
+            <Switch
+              checkedChildren="°C"
+              unCheckedChildren="°F"
+              defaultChecked
+              style={{ marginLeft: 20 }}
+              onChange={store.toggleUnits}
+            />
+          </Typography.Title>
+        </Header>
         <Layout>
           <Sider theme="light" />
           <Content>

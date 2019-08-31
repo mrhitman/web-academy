@@ -10,5 +10,5 @@ export function KelvinToFahrenheit(value: number) {
 }
 
 export function convertTemperature(amount: number, toUnit: Units) {
-  return round(toUnit === 'C' ? KelvinToCelcius(amount) : KelvinToFahrenheit(amount), 2);
+  return round(toUnit === 'C' ? KelvinToCelcius(amount) : KelvinToFahrenheit(amount), 1);
 }

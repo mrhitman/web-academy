@@ -2,6 +2,9 @@ export interface WeatherResponse {
   id: number;
   name: string;
   cod: number;
+  dt: number;
+  timezone: number;
+  visibility: number;
   coord: {
     lon: number;
     lat: number;
@@ -30,7 +33,6 @@ export interface WeatherResponse {
   clouds: {
     all: number;
   };
-  dt: number;
   sys: {
     message: number;
     country: string;

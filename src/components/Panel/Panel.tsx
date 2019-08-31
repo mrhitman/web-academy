@@ -1,7 +1,7 @@
 import { Col, Row } from 'antd';
 import React from 'react';
-import Weather from '../TownWeather/Weather.container';
 import Store from '../../store';
+import Weather from '../TownWeather/Weather.container';
 
 interface PanelProps {
   store: Store;
@@ -10,9 +10,10 @@ interface PanelProps {
 const Panel: React.FC<PanelProps> = (props) => {
   return (
     <Row gutter={16}>
-      {props.store.towns.map((town) => (
-        <Col key={town.name} span={6}>
-          <Weather town={town.name} country={town.country} />
+      {/* <Switch checkedChildren="°C" unCheckedChildren="°F" defaultChecked onChange={props.store.toggleUnits} /> */}
+      {props.store.towns.map((id) => (
+        <Col key={id} span={6}>
+          <Weather id={id} />
         </Col>
       ))}
     </Row>
