@@ -1,5 +1,6 @@
-import { Card, Icon, Spin, Row, Typography, Col } from 'antd';
+import { Card, Col, Icon, Row, Spin, Typography } from 'antd';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import Flag from 'react-world-flags';
 import Store from '../../store';
 import { WeatherResponse } from '../../types';
@@ -35,7 +36,9 @@ const Weather: React.FC<WeatherProps> = (props) => {
       }
       style={{ height: 680 }}
       actions={[
-        <Icon type="more" key="more" />,
+        <Link to="/details">
+          <Icon type="more" key="more" />
+        </Link>,
         <Icon
           type="delete"
           key="delete"
@@ -49,12 +52,8 @@ const Weather: React.FC<WeatherProps> = (props) => {
     >
       <Row gutter={18}>
         {data.weather.map((weather) => (
-          <Col span={8}>
-            <img
-              key={weather.id}
-              src={`http://openweathermap.org/img/wn/${weather.icon}.png`}
-              alt={weather.description}
-            />
+          <Col key={weather.id} span={8}>
+            <img src={`http://openweathermap.org/img/wn/${weather.icon}.png`} alt={weather.description} />
             <Typography.Paragraph>{weather.description}</Typography.Paragraph>
           </Col>
         ))}
