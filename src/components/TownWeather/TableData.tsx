@@ -42,7 +42,7 @@ function getWindValue(data: WeatherResponse) {
   };
   if (data.wind.deg) {
     const direction = reduce(windRose, (acc, value, name) => (acc || value < data.wind.deg ? acc : name), '');
-    return `${value} , ${direction} (${data.wind.deg})`;
+    return `${value} , ${direction} (${data.wind.deg}°)`;
   }
   return value;
 }
@@ -62,13 +62,13 @@ const TableData: React.FC<{ data: WeatherResponse }> = (props) => {
   return (
     <Table
       dataSource={[
-        { key: 1, name: 'Wind', value: getWindValue(data) },
-        { key: 2, name: 'Cloudiness', value: 'Sky is clear' },
-        { key: 3, name: 'Pressure', value: `${data.main.pressure} hpa` },
-        { key: 4, name: 'Humidity', value: `${data.main.humidity} %` },
-        { key: 5, name: 'Sunrise', value: DateTime.fromSeconds(data.sys.sunrise).toFormat('HH:mm') },
-        { key: 6, name: 'Sunset', value: DateTime.fromSeconds(data.sys.sunset).toFormat('HH:mm') },
-        { key: 7, name: 'Geo coords	', value: getMapUrl(data) }
+        { key: 1, name: 'Ветер', value: getWindValue(data) },
+        { key: 2, name: 'Облачность', value: `${data.clouds.all} %` },
+        { key: 3, name: 'Атмосферное давление', value: `${data.main.pressure} hpa` },
+        { key: 4, name: 'Влажность', value: `${data.main.humidity} %` },
+        { key: 5, name: 'Восход', value: DateTime.fromSeconds(data.sys.sunrise).toFormat('HH:mm') },
+        { key: 6, name: 'Закат', value: DateTime.fromSeconds(data.sys.sunset).toFormat('HH:mm') },
+        { key: 7, name: 'Гео позиция', value: getMapUrl(data) }
       ]}
       columns={[ { dataIndex: 'name', key: 'name' }, { dataIndex: 'value', key: 'value' } ]}
       showHeader={false}
