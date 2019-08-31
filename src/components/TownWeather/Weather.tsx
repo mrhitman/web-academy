@@ -1,10 +1,11 @@
-import { Card, Col, Icon, Row, Spin, Typography } from 'antd';
+import { Card, Col, Icon, Row, Typography } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Flag from 'react-world-flags';
 import Store from '../../store';
 import { WeatherResponse } from '../../types';
 import { convertTemperature } from '../../utils';
+import EmptyWeather from './EmptyWeather';
 import TableData from './TableData';
 
 interface WeatherProps {
@@ -22,11 +23,9 @@ const Weather: React.FC<WeatherProps> = (props) => {
     [ props ]
   );
 
-  if (!data) {
-    return <Spin />;
-  }
-  return (
+  return data ? (
     <Card
+      className="weather-card"
       title={
         <div>
           {data.name},
@@ -34,7 +33,6 @@ const Weather: React.FC<WeatherProps> = (props) => {
           {convertTemperature(data.main.temp, props.store.units)} °{props.store.units}
         </div>
       }
-      style={{ height: 680 }}
       actions={[
         <Link to="/details">
           <Icon type="more" key="more" />
@@ -60,6 +58,8 @@ const Weather: React.FC<WeatherProps> = (props) => {
       </Row>
       <TableData data={data} />
     </Card>
+  ) : (
+    <EmptyWeather />
   );
 };
 
