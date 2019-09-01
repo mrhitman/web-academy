@@ -27,11 +27,11 @@ const Weather: React.FC<WeatherProps> = (props) => {
     <Card
       className="weather-card"
       title={
-        <div>
+        <Link to={`/details/${data.id}`}>
           {data.name},
           {data.sys.country} <Flag code={data.sys.country} height={12} />,
           {convertTemperature(data.main.temp, props.store.units)} °{props.store.units}
-        </div>
+        </Link>
       }
       actions={[
         <Link to={`/details/${data.id}`}>

@@ -1,5 +1,6 @@
 import { Layout as AntdLayout, Switch, Typography } from 'antd';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const { Header, Content, Sider, Footer } = AntdLayout;
 
@@ -12,7 +13,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
     <AntdLayout>
       <Header>
         <Typography.Title style={{ color: '#fff', margin: '10px 0 0 40px' }} level={3}>
-          Weather App
+          <Link to="/">Weather App</Link>
           <Switch
             checkedChildren="°C"
             unCheckedChildren="°F"
