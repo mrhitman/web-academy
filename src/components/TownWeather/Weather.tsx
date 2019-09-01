@@ -6,7 +6,7 @@ import Store from '../../store';
 import { WeatherResponse } from '../../types';
 import { convertTemperature } from '../../utils';
 import EmptyWeather from './EmptyWeather';
-import TableData from './TableData';
+import TableData from '../TableData';
 
 interface WeatherProps {
   store: Store;

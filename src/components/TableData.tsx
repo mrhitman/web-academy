@@ -2,9 +2,9 @@ import { Table } from 'antd';
 import { find } from 'lodash';
 import { DateTime } from 'luxon';
 import React from 'react';
-import { WeatherResponse } from '../../types';
-import { windRoses, windSpeed } from '../../utils';
-import MapUrl from './MapUrl';
+import { WeatherResponse } from '../types';
+import { windRoses, windSpeed } from '../utils';
+import MapUrl from './TownWeather/MapUrl';
 
 function getWindValue(data: WeatherResponse) {
   const name = find(windSpeed, (wind) => data.wind.speed <= wind.speed)!.name;
