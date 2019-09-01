@@ -47,6 +47,25 @@ export interface WeatherResponse {
   };
 }
 
+export interface ForecastWeather {
+  clouds: { all: number };
+  dt: number;
+  dt_txt: string;
+  main: {
+    grnd_level: number;
+    humidity: number;
+    pressure: number;
+    sea_level: number;
+    temp: number;
+    temp_kf: number;
+    temp_max: number;
+    temp_min: number;
+  };
+  sys: { pod: string };
+  weather: Array<Weather>;
+  wind: Wind;
+}
+
 export interface ForecastResponse {
   city: {
     coord: Coordinates;
@@ -59,23 +78,6 @@ export interface ForecastResponse {
   };
   cnt: number;
   cod: string;
-  list: Array<{
-    clouds: { all: number };
-    dt: number;
-    dt_txt: string;
-    main: {
-      grnd_level: number;
-      humidity: number;
-      pressure: number;
-      sea_level: number;
-      temp: number;
-      temp_kf: number;
-      temp_max: number;
-      temp_min: number;
-    };
-    sys: { pod: string };
-    weather: Array<Weather>;
-    wind: Wind;
-  }>;
+  list: Array<ForecastWeather>;
   message: number;
 }

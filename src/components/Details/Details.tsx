@@ -1,14 +1,14 @@
-import { Breadcrumb, Card, Skeleton, Tabs, Row, Col } from 'antd';
+import { Breadcrumb, Card, Col, Row, Skeleton, Tabs, Typography } from 'antd';
 import { map } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
+import Flag from 'react-world-flags';
 import Store from '../../store';
-import { ForecastResponse, WeatherResponse } from '../../types';
-import { LineChart, XAxis, YAxis, CartesianGrid, Line } from 'recharts';
+import { ForecastResponse, ForecastWeather, WeatherResponse } from '../../types';
 import { convertTemperature } from '../../utils';
-import { DateTime } from 'luxon';
 import TableData from '../TableData';
+import Chart from './LineChart';
 
 interface DetailsProps extends RouteComponentProps<{ townId: string }> {
   store: Store;
@@ -46,6 +46,12 @@ const Details: React.FC<DetailsProps> = (props) => {
         <Breadcrumb.Item>Подробней о {data.weather.name}</Breadcrumb.Item>
       </Breadcrumb>
       <Card>
+        <Row>
+          <Typography.Title>
+            {data.weather.name}, {data.weather.sys.country} <Flag code={data.weather.sys.country} height={20} />,{' '}
+            {convertTemperature(data.weather.main.temp, props.store.units)} °{props.store.units}
+          </Typography.Title>
+        </Row>
         <Row gutter={32}>
           <Col span={6} offset={1}>
             <TableData data={data.weather} />
@@ -53,24 +59,17 @@ const Details: React.FC<DetailsProps> = (props) => {
           <Col span={16}>
             <Tabs defaultActiveKey="0">
               <Tabs.TabPane tab="Temperature" key="0">
-                <LineChart
-                  width={920}
-                  height={400}
-                  data={data.forecast.list.map((weather) => {
-                    return {
-                      name: DateTime.fromSeconds(weather.dt).toFormat('HH:mm'),
-                      uv: convertTemperature(weather.main.temp, props.store.units)
-                    };
-                  })}
-                >
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
-                  <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-                </LineChart>
+                <Chart
+                  forecast={data.forecast}
+                  dataProvider={(weather: ForecastWeather) => convertTemperature(weather.main.temp, props.store.units)}
+                />
               </Tabs.TabPane>
-              <Tabs.TabPane tab="Pressure" key="1" />
-              <Tabs.TabPane tab="Huminity" key="2" />
+              <Tabs.TabPane tab="Pressure" key="1">
+                <Chart forecast={data.forecast} dataProvider={(weather: ForecastWeather) => weather.main.pressure} />
+              </Tabs.TabPane>
+              <Tabs.TabPane tab="Humidity" key="2">
+                <Chart forecast={data.forecast} dataProvider={(weather: ForecastWeather) => weather.main.humidity} />
+              </Tabs.TabPane>
             </Tabs>
           </Col>
           <Col span={1} />
