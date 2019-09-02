@@ -1,32 +1,26 @@
-import { Layout as AntdLayout, Switch, Typography } from 'antd';
-import React from 'react';
-import { Link } from 'react-router-dom';
+import { Layout as AntdLayout, Typography } from "antd";
+import React from "react";
+import { Link } from "react-router-dom";
+import UnitSwitcher from "./UnitSwitcher/UnitSwitcher.container";
 
 const { Header, Content, Sider, Footer } = AntdLayout;
 
-interface LayoutProps {
-  toggleUnits: () => void;
-}
-
-const Layout: React.FC<LayoutProps> = (props) => {
+const Layout: React.FC = props => {
   return (
     <AntdLayout>
       <Header>
-        <Typography.Title style={{ color: '#fff', margin: '10px 0 0 40px' }} level={3}>
+        <Typography.Title
+          style={{ color: "#fff", margin: "10px 0 0 40px" }}
+          level={3}
+        >
           <Link to="/">Weather App</Link>
-          <Switch
-            checkedChildren="°C"
-            unCheckedChildren="°F"
-            defaultChecked
-            style={{ marginLeft: 20 }}
-            onChange={props.toggleUnits}
-          />
+          <UnitSwitcher />
         </Typography.Title>
       </Header>
-      <AntdLayout>
-        <Sider theme="light" />
+      <AntdLayout style={{ paddingTop: 10 }}>
+        <Sider theme="light" width={60} />
         <Content>{props.children}</Content>
-        <Sider theme="light" />
+        <Sider theme="light" width={60} />
       </AntdLayout>
       <Footer>Created by, hitman®, 2019</Footer>
     </AntdLayout>

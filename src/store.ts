@@ -1,15 +1,35 @@
-import { remove } from 'lodash';
-import { action, configure, observable } from 'mobx';
-import Api from './api';
+import { pick, remove } from "lodash";
+import { action, autorun, configure, observable } from "mobx";
+import Api from "./api";
 
-export type Units = 'C' | 'F';
+export type Units = "C" | "F";
 
 export class Store {
-  @observable public units: Units = 'C';
-  @observable public towns: Array<number> = [ 706483, 703448, 524901, 5128581, 4398103, 1851632, 2950159, 304782 ];
+  @observable public units: Units = "C";
+  @observable public towns: Array<number> = [];
 
   constructor(protected readonly _api: Api) {
-    configure({ enforceActions: 'always' });
+    configure({ enforceActions: "always" });
+
+    this.load();
+    this.save();
+  }
+
+  @action.bound
+  protected load() {
+    const json = localStorage.getItem("@weatherapp");
+    if (json) {
+      const data = JSON.parse(json);
+      this.towns = data.towns;
+      this.units = data.units;
+    }
+  }
+
+  protected save() {
+    autorun(() => {
+      const json = JSON.stringify(pick(this, ["towns", "units"]));
+      localStorage.setItem("@weatherapp", json);
+    });
   }
 
   public get api() {
@@ -18,7 +38,7 @@ export class Store {
 
   @action.bound
   public toggleUnits() {
-    this.units = this.units === 'C' ? 'F' : 'C';
+    this.units = this.units === "C" ? "F" : "C";
   }
 
   @action.bound
@@ -28,7 +48,7 @@ export class Store {
 
   @action.bound
   public removeTown(id: number) {
-    this.towns = remove(this.towns, (townId) => id !== townId);
+    this.towns = remove(this.towns, townId => id !== townId);
   }
 }
 
