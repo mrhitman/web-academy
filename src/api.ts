@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosPromise } from 'axios';
-import { WeatherResponse, ForecastResponse } from './types';
+import { FindResponse, ForecastResponse, WeatherResponse } from './types';
 
 export class Api {
   protected readonly client: AxiosInstance;
@@ -26,6 +26,10 @@ export class Api {
 
   public getDailyForecastByCityId(id: number) {
     return this.client.get(`/forecast/daily/?appid=${process.env.REACT_APP_API_KEY}&id=${id}&lang=ru`);
+  }
+
+  public findTown(name: string): AxiosPromise<FindResponse> {
+    return this.client.get(`/find?q=${name}&type=like&sort=population&appid=${process.env.REACT_APP_API_KEY}`);
   }
 }
 

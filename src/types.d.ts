@@ -81,3 +81,30 @@ export interface ForecastResponse {
   list: Array<ForecastWeather>;
   message: number;
 }
+
+export interface FindResponse {
+  message: string;
+  cod: string;
+  count: number;
+  list: Array<{
+    id: number;
+    name: string;
+    coord: Coordinates;
+    main: {
+      temp: number;
+      pressure: number;
+      humidity: number;
+      temp_min: number;
+      temp_max: number;
+      sea_level: number;
+      grnd_level: number;
+    };
+    dt: number;
+    wind: Wind;
+    sys: { country: string };
+    rain: any;
+    snow: any;
+    clouds: { all: number };
+    weather: Array<{ id: number; main: string; description: string; icon: string }>;
+  }>;
+}
