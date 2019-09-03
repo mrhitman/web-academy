@@ -117,15 +117,13 @@ const Details: React.FC<DetailsProps> = props => {
         </Row>
         <Row>
           <Col span={16} offset={4}>
-            {loading ? (
-              <Spin />
-            ) : (
+            <Spin size="large" spinning={loading}>
               <ReactImageGallery
                 items={images}
                 thumbnailPosition="right"
                 showPlayButton={false}
               />
-            )}
+            </Spin>
           </Col>
         </Row>
       </Card>
