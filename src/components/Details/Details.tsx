@@ -1,14 +1,28 @@
-import { Breadcrumb, Card, Col, Row, Skeleton, Tabs, Typography } from 'antd';
-import { map } from 'lodash';
-import React, { useEffect, useState } from 'react';
-import { RouteComponentProps } from 'react-router';
-import { Link } from 'react-router-dom';
-import Flag from 'react-world-flags';
-import Store from '../../store';
-import { ForecastResponse, ForecastWeather, WeatherResponse } from '../../types';
-import { convertTemperature } from '../../utils';
-import TableData from '../TableData';
-import Chart from './LineChart';
+import {
+  Breadcrumb,
+  Card,
+  Col,
+  Row,
+  Skeleton,
+  Tabs,
+  Typography,
+  Spin
+} from "antd";
+import { map } from "lodash";
+import React, { useEffect, useState } from "react";
+import { RouteComponentProps } from "react-router";
+import { Link } from "react-router-dom";
+import Flag from "react-world-flags";
+import Store from "../../store";
+import {
+  ForecastResponse,
+  ForecastWeather,
+  WeatherResponse
+} from "../../types";
+import { convertTemperature } from "../../utils";
+import TableData from "../TableData";
+import Chart from "./LineChart";
+import ReactImageGallery from "react-image-gallery";
 
 interface DetailsProps extends RouteComponentProps<{ townId: string }> {
   store: Store;
@@ -19,23 +33,36 @@ interface DetailsData {
   forecast: ForecastResponse;
 }
 
-const Details: React.FC<DetailsProps> = (props) => {
-  const [ data, setData ] = useState<undefined | DetailsData>(undefined);
+const Details: React.FC<DetailsProps> = props => {
+  const [data, setData] = useState<undefined | DetailsData>(undefined);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [images, setImages] = useState<any>([]);
 
-  useEffect(
-    () => {
-      const townId = +props.match.params.townId;
-      Promise.all([ props.store.api.getByCityID(townId), props.store.api.getForecastByCityId(townId) ])
-        .then((responses) => map(responses, 'data'))
-        .then((allData) => {
-          setData({
-            forecast: allData.pop() as ForecastResponse,
-            weather: allData.pop() as WeatherResponse
-          });
-        });
-    },
-    [ props ]
-  );
+  useEffect(() => {
+    const townId = +props.match.params.townId;
+    const { api } = props.store;
+    Promise.all([api.getByCityID(townId), api.getForecastByCityId(townId)])
+      .then(responses => map(responses, "data"))
+      .then(allData => {
+        const data = {
+          forecast: allData.pop() as ForecastResponse,
+          weather: allData.pop() as WeatherResponse
+        };
+        setData(data);
+        setLoading(true);
+        return data;
+      })
+      .then(data => api.findImages(data.weather.name))
+      .then(response => {
+        setImages(
+          response.map(image => ({
+            original: image.urls.regular,
+            thumbnail: image.urls.thumb
+          }))
+        );
+        setLoading(false);
+      });
+  }, [props]);
 
   return data ? (
     <React.Fragment>
@@ -48,8 +75,10 @@ const Details: React.FC<DetailsProps> = (props) => {
       <Card>
         <Row>
           <Typography.Title>
-            {data.weather.name}, {data.weather.sys.country} <Flag code={data.weather.sys.country} height={20} />,{' '}
-            {convertTemperature(data.weather.main.temp, props.store.units)} °{props.store.units}
+            {data.weather.name}, {data.weather.sys.country}{" "}
+            <Flag code={data.weather.sys.country} height={20} />,{" "}
+            {convertTemperature(data.weather.main.temp, props.store.units)} °
+            {props.store.units}
           </Typography.Title>
         </Row>
         <Row gutter={32}>
@@ -61,18 +90,39 @@ const Details: React.FC<DetailsProps> = (props) => {
               <Tabs.TabPane tab="Temperature" key="0">
                 <Chart
                   forecast={data.forecast}
-                  dataProvider={(weather: ForecastWeather) => convertTemperature(weather.main.temp, props.store.units)}
+                  dataProvider={(weather: ForecastWeather) =>
+                    convertTemperature(weather.main.temp, props.store.units)
+                  }
                 />
               </Tabs.TabPane>
               <Tabs.TabPane tab="Pressure" key="1">
-                <Chart forecast={data.forecast} dataProvider={(weather: ForecastWeather) => weather.main.pressure} />
+                <Chart
+                  forecast={data.forecast}
+                  dataProvider={(weather: ForecastWeather) =>
+                    weather.main.pressure
+                  }
+                />
               </Tabs.TabPane>
               <Tabs.TabPane tab="Humidity" key="2">
-                <Chart forecast={data.forecast} dataProvider={(weather: ForecastWeather) => weather.main.humidity} />
+                <Chart
+                  forecast={data.forecast}
+                  dataProvider={(weather: ForecastWeather) =>
+                    weather.main.humidity
+                  }
+                />
               </Tabs.TabPane>
             </Tabs>
           </Col>
           <Col span={1} />
+        </Row>
+        <Row>
+          <Col span={16} offset={4}>
+            {loading ? (
+              <Spin />
+            ) : (
+              <ReactImageGallery items={images} thumbnailPosition="right" />
+            )}
+          </Col>
         </Row>
       </Card>
     </React.Fragment>
