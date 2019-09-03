@@ -33,6 +33,8 @@ const Search: React.FC<SearchProps> = props => {
       props.store.api.findTown(value).then(response => {
         setDataSource(response.data);
       });
+    } else {
+      setDataSource(undefined);
     }
   }, [value, props.store.api]);
 
@@ -45,7 +47,10 @@ const Search: React.FC<SearchProps> = props => {
           optionLabelProp="text"
           dataSource={dataSource ? dataSource.list.map(renderOption) : []}
           onSearch={setValue}
-          onSelect={item => props.store.addTown(+item)}
+          onSelect={item => {
+            props.store.addTown(+item);
+            setValue("");
+          }}
         >
           <Input
             suffix={
