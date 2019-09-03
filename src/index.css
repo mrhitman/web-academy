@@ -22,8 +22,8 @@ code {
 }
 
 .global-search {
-  margin: 10px 0 0 0;
-  width: 340px;
+  margin: 10px 0 10px 0;
+  width: 100%;
 }
 
 .global-search.ant-select-auto-complete .ant-select-selection--single {

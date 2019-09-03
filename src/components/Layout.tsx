@@ -1,8 +1,7 @@
-import { Layout as AntdLayout, Typography, Row, Col } from "antd";
+import { Layout as AntdLayout, Typography } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
 import UnitSwitcher from "./UnitSwitcher/UnitSwitcher.container";
-import Search from "./Search/Search.container";
 
 const { Header, Content, Sider, Footer } = AntdLayout;
 
@@ -18,11 +17,6 @@ const Layout: React.FC = props => {
           <UnitSwitcher />
         </Typography.Title>
       </Header>
-      <Row>
-        <Col offset={18}>
-          <Search />
-        </Col>
-      </Row>
       <AntdLayout style={{ paddingTop: 14 }}>
         <Sider theme="light" width={60} />
         <Content>{props.children}</Content>

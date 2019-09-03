@@ -87,7 +87,7 @@ const Details: React.FC<DetailsProps> = props => {
           </Col>
           <Col span={16}>
             <Tabs defaultActiveKey="0">
-              <Tabs.TabPane tab="Temperature" key="0">
+              <Tabs.TabPane tab="Температура" key="0">
                 <Chart
                   forecast={data.forecast}
                   dataProvider={(weather: ForecastWeather) =>
@@ -95,7 +95,7 @@ const Details: React.FC<DetailsProps> = props => {
                   }
                 />
               </Tabs.TabPane>
-              <Tabs.TabPane tab="Pressure" key="1">
+              <Tabs.TabPane tab="Атмосферное давление" key="1">
                 <Chart
                   forecast={data.forecast}
                   dataProvider={(weather: ForecastWeather) =>
@@ -103,7 +103,7 @@ const Details: React.FC<DetailsProps> = props => {
                   }
                 />
               </Tabs.TabPane>
-              <Tabs.TabPane tab="Humidity" key="2">
+              <Tabs.TabPane tab="Влажность воздуха" key="2">
                 <Chart
                   forecast={data.forecast}
                   dataProvider={(weather: ForecastWeather) =>
