@@ -120,7 +120,11 @@ const Details: React.FC<DetailsProps> = props => {
             {loading ? (
               <Spin />
             ) : (
-              <ReactImageGallery items={images} thumbnailPosition="right" />
+              <ReactImageGallery
+                items={images}
+                thumbnailPosition="right"
+                showPlayButton={false}
+              />
             )}
           </Col>
         </Row>
