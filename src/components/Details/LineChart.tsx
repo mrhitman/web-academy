@@ -1,21 +1,21 @@
-import { DateTime } from 'luxon';
-import React from 'react';
-import { CartesianGrid, Line, LineChart, XAxis, YAxis } from 'recharts';
-import { ForecastResponse, ForecastWeather } from '../../types';
+import { DateTime } from "luxon";
+import React from "react";
+import { CartesianGrid, Line, LineChart, XAxis, YAxis } from "recharts";
+import { ForecastResponse, ForecastWeather } from "../../types";
 
 interface ChartProps {
   forecast: ForecastResponse;
   dataProvider: (weather: ForecastWeather) => number;
 }
 
-export const Chart: React.FC<ChartProps> = (props) => {
+export const Chart: React.FC<ChartProps> = props => {
   return (
     <LineChart
       width={920}
       height={400}
-      data={props.forecast.list.map((weather) => {
+      data={props.forecast.list.map(weather => {
         return {
-          name: DateTime.fromSeconds(weather.dt).toFormat('HH:mm'),
+          name: DateTime.fromSeconds(weather.dt).toFormat("HH:mm"),
           uv: props.dataProvider(weather)
         };
       })}

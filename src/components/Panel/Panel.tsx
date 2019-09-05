@@ -1,14 +1,14 @@
-import { Col, Row } from 'antd';
-import React, { Fragment, useEffect } from 'react';
-import Store from '../../store';
-import Search from '../Search/Search.container';
-import Weather from '../TownWeather/Weather.container';
+import { Col, Row } from "antd";
+import React, { Fragment, useEffect } from "react";
+import Store from "../../store";
+import Search from "../Search/Search.container";
+import Weather from "../TownWeather/Weather.container";
 
 interface PanelProps {
   store: Store;
 }
 
-const Panel: React.FC<PanelProps> = (props) => {
+const Panel: React.FC<PanelProps> = props => {
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(console.log);
@@ -23,7 +23,7 @@ const Panel: React.FC<PanelProps> = (props) => {
         </Col>
       </Row>
       <Row gutter={12}>
-        {props.store.towns.map((id) => (
+        {props.store.towns.map(id => (
           <Col key={id} lg={6} md={8} sm={12} xs={24}>
             <Weather id={id} />
           </Col>

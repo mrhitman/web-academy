@@ -1,4 +1,4 @@
-import { inject, observer } from 'mobx-react';
-import Details from './Details';
+import { inject, observer } from "mobx-react";
+import Details from "./Details";
 
-export default inject('store')(observer<any>(Details));
+export default inject("store")(observer<any>(Details));

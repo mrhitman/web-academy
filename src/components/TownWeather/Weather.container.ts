@@ -1,4 +1,4 @@
-import { inject, observer } from 'mobx-react';
-import Weather from './Weather';
+import { inject, observer } from "mobx-react";
+import Weather from "./Weather";
 
-export default inject('store')(observer<any>(Weather));
+export default inject("store")(observer<any>(Weather));
