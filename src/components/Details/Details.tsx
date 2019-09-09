@@ -81,6 +81,18 @@ const Details: React.FC<DetailsProps> = props => {
             {props.store.units}
           </Typography.Title>
         </Row>
+        <Row gutter={18}>
+          {data.weather.weather.map(weather => (
+            <Col key={weather.id} offset={1} span={3}>
+              <img
+                src={`http://openweathermap.org/img/wn/${weather.icon}.png`}
+                alt={weather.description}
+              />
+              <Typography.Paragraph>{weather.description}</Typography.Paragraph>
+            </Col>
+          ))}
+          <Col span={20} />
+        </Row>
         <Row gutter={32}>
           <Col span={6} offset={1}>
             <TableData data={data.weather} />
@@ -118,11 +130,22 @@ const Details: React.FC<DetailsProps> = props => {
         <Row>
           <Col span={16} offset={4}>
             <Spin size="large" spinning={loading}>
-              <ReactImageGallery
-                items={images}
-                thumbnailPosition="right"
-                showPlayButton={false}
-              />
+              {images.length === 0 ? (
+                <Typography.Title
+                  level={3}
+                  style={{
+                    margin: 80
+                  }}
+                >
+                  К сожалению, ни одного фото не найдено, :(
+                </Typography.Title>
+              ) : (
+                <ReactImageGallery
+                  items={images}
+                  thumbnailPosition="right"
+                  showPlayButton={false}
+                />
+              )}
             </Spin>
           </Col>
         </Row>
