@@ -1,5 +1,10 @@
 import axios, { AxiosInstance, AxiosPromise } from "axios";
-import { FindResponse, ForecastResponse, WeatherResponse } from "./types";
+import {
+  FindResponse,
+  ForecastResponse,
+  WeatherResponse,
+  Coordinates
+} from "./types";
 import Unsplash from "unsplash-client";
 
 export class Api {
@@ -25,6 +30,12 @@ export class Api {
   public getByCityID(id: number): AxiosPromise<WeatherResponse> {
     return this.client.get(
       `/weather?id=${id}&appid=${process.env.REACT_APP_API_KEY}&lang=ru`
+    );
+  }
+
+  public getByGeoCoords(coords: Coordinates) {
+    return this.client.get(
+      `/weather?lat=${coords.lat}&lon=${coords.lon}&appid=${process.env.REACT_APP_API_KEY}&lang=ru`
     );
   }
 

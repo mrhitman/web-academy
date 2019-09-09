@@ -31,12 +31,17 @@ const Search: React.FC<SearchProps> = props => {
   useEffect(() => {
     if (value.length > 3) {
       props.store.api.findTown(value).then(response => {
-        setDataSource(response.data);
+        setDataSource({
+          ...response.data,
+          list: response.data.list.filter(
+            item => props.store.towns.indexOf(item.id) === -1
+          )
+        });
       });
     } else {
       setDataSource(undefined);
     }
-  }, [value, props.store.api]);
+  }, [value, props.store]);
 
   return (
     <Fragment>

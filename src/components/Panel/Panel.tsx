@@ -11,9 +11,28 @@ interface PanelProps {
 const Panel: React.FC<PanelProps> = props => {
   useEffect(() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(console.log);
+      navigator.geolocation.getCurrentPosition(position => {
+        props.store.api
+          .getByGeoCoords({
+            lon: position.coords.longitude,
+            lat: position.coords.latitude
+          })
+          .then(response => response.data)
+          .then(response => {
+            if (props.store.towns.indexOf(response.id) > -1) {
+              return;
+            }
+            if (
+              window.confirm(
+                `Добавить текущее месторасположение, (${response.name})?`
+              )
+            ) {
+              props.store.addTown(response.id);
+            }
+          });
+      });
     }
-  }, []);
+  }, [props.store]);
 
   return (
     <Fragment>
